@@ -4,6 +4,8 @@ import com.example.apijwt.Product;
 import com.example.apijwt.ProductRepository;
 import com.example.apijwt.jwt.JwtTokenUnit;
 import com.example.apijwt.user.User;
+import com.example.apijwt.user.UserRepository;
+import com.example.apijwt.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,9 +29,10 @@ import java.util.List;
 public class AuthApi {
     @Autowired AuthenticationManager authManager;
     @Autowired JwtTokenUnit jwtUtil;
-
     @PostMapping("/auth/login")
+
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
+
         try {
             Authentication authentication = authManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

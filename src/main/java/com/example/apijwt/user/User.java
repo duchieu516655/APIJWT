@@ -7,15 +7,22 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 import java.util.*;
 
 @Entity
+@Valid
 @Table(name = "users")
 public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Email
+    @NotEmpty(message = "Email không để trống")
     @Column(nullable = false,unique = true,length = 60)
     private String email;
+    @NotEmpty(message = "Password hông được để trống")
     @Column(nullable = false,length = 20)
     private String password;
 
@@ -90,9 +97,6 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -113,5 +117,4 @@ public class User implements UserDetails {
     public void addRole(Role role) {
         this.roles.add(role);
     }
-
 }

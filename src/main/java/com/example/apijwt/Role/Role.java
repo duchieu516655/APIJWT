@@ -1,5 +1,8 @@
 package com.example.apijwt.Role;
 
+import com.example.apijwt.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -44,4 +47,5 @@ public class Role {
     public String toString(){
         return name;
     }
+
 }
